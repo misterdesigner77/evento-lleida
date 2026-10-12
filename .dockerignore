@@ -1,0 +1,11 @@
+.env
+.env.example
+data/
+*.db
+venv/
+.venv/
+__pycache__/
+.git/
+.gitignore
+gui.py
+README.md

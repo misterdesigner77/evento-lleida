@@ -1,0 +1,26 @@
+services:
+  api:
+    build: .
+    command: uvicorn api:app --host 0.0.0.0 --port 8000
+    env_file: .env
+    volumes:
+      - ./data:/app/data            # o banco fica fora do container e sobrevive a rebuilds
+    ports:
+      - "127.0.0.1:8000:8000"       # só acessível pela própria máquina
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  bot:
+    build: .
+    command: python -m bot.main
+    env_file: .env
+    environment:
+      API_URL: http://api:8000      # dentro da rede do compose, a API se chama "api"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
