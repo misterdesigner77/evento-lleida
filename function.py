@@ -1,3 +1,4 @@
+import sys
 import sqlite3
 import logging
 import secrets
@@ -187,16 +188,4 @@ def format_mentions(sep: str = " ") -> str:
 
 
 if __name__ == "__main__":
-    db.open_db()
-
-    pessoa_id, subtype_id, codigo = create_person({
-        "nome": "Marcos Martins",
-        "genero": "masculino",
-        "localizacao": "Espanha",
-        "data_nascimento": "2002-05-15",
-        "tipo": "adulto",
-        "telefone": "668517505",
-        "instagram": "@marcos.sev7n",
-        "email": "marquinhos@gmail.com",
-    })
-    print("Código de check-in:", codigo)
+    confirm_presence(code=sys.argv[1])
